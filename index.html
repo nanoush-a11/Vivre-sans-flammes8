@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quel est ton profil inflammatoire ? – Vivre Sans Flammes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --cream: #FAF5EE;
+  --cream2: #F3EBE0;
+  --terracotta: #C4714A;
+  --terra-light: #E09070;
+  --terra-pale: #F5DDD0;
+  --sage: #6B9070;
+  --sage-light: #9BBF9F;
+  --sage-pale: #E4EFE5;
+  --brown: #2C1A0E;
+  --brown-mid: #5A3820;
+  --brown-light: #9A7055;
+  --gold: #C9993A;
+  --warm-dark: #1C110A;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--cream);
+  color: var(--brown);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 85% 10%, rgba(107,144,112,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 90%, rgba(196,113,74,0.07) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.progress-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 3px;
+  background: rgba(196,113,74,0.15);
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--terracotta), var(--terra-light));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(250,245,238,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(196,113,74,0.1);
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--brown);
+}
+.logo em { font-style: italic; color: var(--terracotta); }
+.step-counter {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--brown-light);
+}
+.main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px 60px;
+  position: relative;
+  z-index: 1;
+}
+.screen {
+  display: none;
+  max-width: 620px;
+  width: 100%;
+  animation: fadeUp 0.5s ease both;
+}
+.screen.active { display: block; }
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* INTRO */
+.intro-badge {
+  display: inline-block;
+  background: var(--sage-pale);
+  color: var(--sage);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 50px;
+  margin-bottom: 24px;
+}
+.intro h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--brown);
+  margin-bottom: 20px;
+}
+.intro h1 em { font-style: italic; color: var(--terracotta); }
+.intro-desc {
+  font-size: 1.05rem;
+  color: var(--brown-light);
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+.intro-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.perk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--brown-mid);
+}
+.perk-icon {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--sage-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--terracotta), var(--terra-light));
+  color: #fff;
+  border: none;
+  padding: 18px 40px;
+  border-radius: 60px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  box-shadow: 0 8px 32px rgba(196,113,74,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(196,113,74,0.45); }
+.intro-note {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: var(--brown-light);
+  opacity: 0.7;
+}
+
+/* QUESTIONS */
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.q-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: rgba(196,113,74,0.2);
+  line-height: 1;
+}
+.q-of { font-size: 0.8rem; color: var(--brown-light); padding-top: 12px; }
+.question-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 600;
+  color: var(--brown);
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.question-sub {
+  font-size: 0.9rem;
+  color: var(--brown-light);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+.options-grid { display: grid; gap: 12px; }
+.option-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1.5px solid rgba(196,113,74,0.12);
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  text-align: left;
+  transition: all 0.2s;
+  width: 100%;
+}
+.option-btn:hover { border-color: var(--terracotta); background: var(--terra-pale); transform: translateX(4px); }
+.option-btn.selected { border-color: var(--terracotta); background: var(--terra-pale); box-shadow: 0 4px 16px rgba(196,113,74,0.15); }
+.opt-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.opt-label { font-size: 0.97rem; font-weight: 500; color: var(--brown-mid); line-height: 1.5; }
+.opt-sub { font-size: 0.8rem; color: var(--brown-light); margin-top: 2px; font-weight: 400; }
+.btn-next {
+  margin-top: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--brown);
+  color: var(--cream);
+  border: none;
+  padding: 15px 36px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  transition: all 0.2s;
+  opacity: 0;
+  pointer-events: none;
+}
+.btn-next.visible { opacity: 1; pointer-events: all; }
+.btn-next:hover { background: var(--brown-mid); }
+
+/* EMAIL SCREEN - JOTFORM */
+.email-screen .email-header { margin-bottom: 28px; }
+.email-screen h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+  color: var(--brown);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.email-screen h2 em { font-style: italic; color: var(--terracotta); }
+.email-screen p {
+  font-size: 0.97rem;
+  color: var(--brown-light);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.jotform-wrap {
+  background: #fff;
+  border-radius: 16px;
+  padding: 10px;
+  border: 1px solid rgba(196,113,74,0.15);
+  overflow: hidden;
+}
+.jotform-wrap iframe {
+  width: 100% !important;
+  border: none !important;
+}
+.rgpd-note {
+  font-size: 0.75rem;
+  color: var(--brown-light);
+  opacity: 0.6;
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+/* Bouton continuer après Jotform */
+.btn-voir-resultat {
+  margin-top: 20px;
+  width: 100%;
+  padding: 17px;
+  background: linear-gradient(135deg, var(--terracotta), var(--terra-light));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  box-shadow: 0 8px 28px rgba(196,113,74,0.3);
+  transition: all 0.2s;
+}
+.btn-voir-resultat:hover { transform: translateY(-2px); }
+
+/* RESULT */
+.result-card {
+  background: var(--brown);
+  border-radius: 24px;
+  padding: 40px 36px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.result-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 80% 20%, rgba(196,113,74,0.2) 0%, transparent 60%);
+}
+.result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(196,113,74,0.2);
+  border: 1px solid rgba(196,113,74,0.3);
+  color: var(--terra-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.result-profile-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 14px;
+  position: relative;
+}
+.result-card h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 12px;
+  position: relative;
+}
+.result-card .result-intro {
+  font-size: 0.97rem;
+  color: rgba(250,245,238,0.75);
+  line-height: 1.8;
+  position: relative;
+  font-style: italic;
+}
+
+/* Score bars */
+.score-bars {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+.score-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: rgba(250,245,238,0.6);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.score-track {
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.score-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 1.2s ease;
+  width: 0%;
+}
+
+/* Detailed advice */
+.advice-section { margin-bottom: 24px; }
+.advice-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brown);
+  margin-bottom: 6px;
+}
+.advice-subtitle {
+  font-size: 0.85rem;
+  color: var(--brown-light);
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.advice-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 22px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--terracotta);
+  box-shadow: 0 2px 12px rgba(44,26,14,0.06);
+}
+.advice-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.advice-icon { font-size: 1.5rem; flex-shrink: 0; }
+.advice-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brown);
+  line-height: 1.3;
+}
+.advice-card-subtitle {
+  font-size: 0.78rem;
+  color: var(--terracotta);
+  font-weight: 600;
+  margin-top: 2px;
+}
+.advice-card-body {
+  font-size: 0.9rem;
+  color: var(--brown-mid);
+  line-height: 1.8;
+}
+.advice-card-body strong { color: var(--brown); font-weight: 600; }
+.advice-card-body em { color: var(--terracotta); font-style: normal; font-weight: 600; }
+
+/* Timeline */
+.timeline {
+  background: var(--sage-pale);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.timeline-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 16px;
+}
+.timeline-items { display: flex; flex-direction: column; gap: 12px; }
+.timeline-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.timeline-week {
+  background: var(--sage);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.timeline-text {
+  font-size: 0.88rem;
+  color: var(--brown-mid);
+  line-height: 1.5;
+}
+
+/* CTA Result */
+.result-cta {
+  background: var(--warm-dark);
+  border-radius: 22px;
+  padding: 36px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.result-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 110%, rgba(196,113,74,0.25) 0%, transparent 65%);
+}
+.result-cta-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--sage-light);
+  margin-bottom: 14px;
+  position: relative;
+}
+.result-cta h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 14px;
+  line-height: 1.25;
+  position: relative;
+}
+.result-cta h3 em { font-style: italic; color: var(--terra-light); }
+.result-cta p {
+  font-size: 0.92rem;
+  color: rgba(250,245,238,0.65);
+  line-height: 1.75;
+  margin-bottom: 28px;
+  position: relative;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.btn-cta {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--terracotta), var(--terra-light));
+  color: #fff;
+  text-decoration: none;
+  padding: 16px 36px;
+  border-radius: 50px;
+  font-size: 0.97rem;
+  font-weight: 700;
+  box-shadow: 0 8px 28px rgba(196,113,74,0.4);
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  position: relative;
+}
+.btn-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(196,113,74,0.5); }
+.result-access {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: rgba(250,245,238,0.3);
+  position: relative;
+}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+
+<header class="site-header">
+  <div class="logo">Vivre <em>Sans Flammes</em></div>
+  <div class="step-counter" id="step-counter">Quiz · 7 questions</div>
+</header>
+
+<div class="main">
+
+  <!-- INTRO -->
+  <div class="screen active" id="screen-intro">
+    <div class="intro">
+      <div class="intro-badge">🌿 Quiz gratuit</div>
+      <h1>Quel est ton <em>profil</em> inflammatoire ?</h1>
+      <p class="intro-desc">En 2 minutes, découvre quel type d'inflammation te touche le plus et reçois des recommandations alimentaires personnalisées et concrètes.</p>
+      <div class="intro-perks">
+        <div class="perk"><div class="perk-icon">⚡</div><span>2 minutes · 7 questions simples</span></div>
+        <div class="perk"><div class="perk-icon">🎯</div><span>Résultat personnalisé selon TON profil</span></div>
+        <div class="perk"><div class="perk-icon">💚</div><span>Conseils alimentaires concrets et actionnables</span></div>
+      </div>
+      <button class="btn-start" onclick="startQuiz()">Commencer le quiz →</button>
+      <div class="intro-note">🔒 Gratuit · Résultats immédiats · Sans engagement</div>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="screen" id="screen-questions">
+    <div class="q-meta">
+      <div class="q-num" id="q-num">01</div>
+      <div class="q-of" id="q-of">/ 07</div>
+    </div>
+    <div class="question-title" id="q-title"></div>
+    <div class="question-sub" id="q-sub"></div>
+    <div class="options-grid" id="options-grid"></div>
+    <button class="btn-next" id="btn-next" onclick="nextQuestion()">Continuer →</button>
+  </div>
+
+  <!-- EMAIL / JOTFORM -->
+  <div class="screen email-screen" id="screen-email">
+    <div class="email-header">
+      <h2>Ton profil est <em>prêt !</em></h2>
+      <p>Entre ton prénom et ton email pour recevoir ton résultat personnalisé — et mes conseils anti-inflammatoires adaptés à ton profil.</p>
+    </div>
+    <div class="jotform-wrap">
+      <script type="text/javascript" src="https://form.jotform.com/jsform/261526495272058"></script>
+    </div>
+    <div class="rgpd-note">🔒 Tes données sont confidentielles. Tu peux te désinscrire à tout moment.</div>
+
+    <!-- Bouton caché, visible uniquement après soumission Jotform -->
+    <button class="btn-voir-resultat" id="btn-voir-resultat" onclick="showResult()" style="display:none;">
+      Voir mon résultat →
+    </button>
+
+    <!-- Message d'attente -->
+    <div id="waiting-msg" style="text-align:center; margin-top:16px; font-size:0.85rem; color:var(--brown-light); line-height:1.6;">
+      ✍️ Remplis le formulaire ci-dessus pour débloquer ton résultat.
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screen-result"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    title: "Comment te sens-tu le matin au réveil ?",
+    sub: "Pense à ta matinée type de cette semaine.",
+    options: [
+      { icon: "😴", label: "Épuisée, comme si je n'avais pas dormi", sub: "Fatigue profonde dès le réveil", value: "fatigue" },
+      { icon: "🦴", label: "Raide et douloureuse, surtout les articulations", sub: "Raideur matinale", value: "douleur" },
+      { icon: "🫃", label: "Ventre tendu et ballonné dès le matin", sub: "Inconfort digestif dès le réveil", value: "digestif" },
+      { icon: "😐", label: "Correcte, mais sans vraie énergie", sub: "Fonctionnelle mais pas en forme", value: "mixte" }
+    ]
+  },
+  {
+    title: "Quel symptôme impacte le plus ta qualité de vie ?",
+    sub: "Choisis le plus difficile à gérer au quotidien.",
+    options: [
+      { icon: "🔥", label: "La douleur chronique (muscles, articulations, tête)", sub: "", value: "douleur" },
+      { icon: "💤", label: "La fatigue persistante qui ne passe pas", sub: "", value: "fatigue" },
+      { icon: "🌪️", label: "Le brouillard mental, la concentration difficile", sub: "", value: "neuro" },
+      { icon: "🫃", label: "Les troubles digestifs (gaz, crampes, transit)", sub: "", value: "digestif" }
+    ]
+  },
+  {
+    title: "Comment réagit ton corps après un repas riche ou sucré ?",
+    sub: "Un repas au restaurant, une fête, un repas de famille...",
+    options: [
+      { icon: "💥", label: "Forte augmentation de mes douleurs dans les heures suivantes", sub: "", value: "douleur" },
+      { icon: "😴", label: "Fatigue intense, envie de dormir, impossible de fonctionner", sub: "", value: "fatigue" },
+      { icon: "🫃", label: "Ballonnements, crampes, digestion difficile pendant 24h", sub: "", value: "digestif" },
+      { icon: "🤯", label: "Brouillard mental, irritabilité, humeur affectée", sub: "", value: "neuro" }
+    ]
+  },
+  {
+    title: "Quelle maladie ou condition vis-tu principalement ?",
+    sub: "Si plusieurs, choisis celle qui te touche le plus.",
+    options: [
+      { icon: "🌸", label: "Endométriose, SOPK, douleurs pelviennes", sub: "", value: "douleur" },
+      { icon: "🦋", label: "Hashimoto, thyroïde, fatigue auto-immune", sub: "", value: "fatigue" },
+      { icon: "🧠", label: "Fibromyalgie, fatigue chronique, brouillard mental", sub: "", value: "neuro" },
+      { icon: "🫘", label: "Crohn, SIBO, intestin irritable, Leaky gut", sub: "", value: "digestif" }
+    ]
+  },
+  {
+    title: "Quel est ton rapport à la cuisine en ce moment ?",
+    sub: "Sois honnête — il n'y a pas de mauvaise réponse.",
+    options: [
+      { icon: "😩", label: "Je suis souvent trop fatiguée pour cuisiner", sub: "Je mange ce qui est rapide et pratique", value: "fatigue" },
+      { icon: "🤷", label: "Je ne sais pas quoi cuisiner pour aller mieux", sub: "Je suis perdue face aux informations contradictoires", value: "mixte" },
+      { icon: "😰", label: "J'ai peur de ce que je mange — tout semble me faire du mal", sub: "", value: "digestif" },
+      { icon: "⏱️", label: "Je cuisine mais je n'ai pas le temps de faire compliqué", sub: "", value: "neuro" }
+    ]
+  },
+  {
+    title: "À quelle heure de la journée tes symptômes sont-ils les pires ?",
+    sub: "Observe ton rythme habituel.",
+    options: [
+      { icon: "🌅", label: "Le matin au réveil — les premières heures sont les plus dures", sub: "", value: "douleur" },
+      { icon: "☀️", label: "L'après-midi — coup de fatigue et brouillard vers 14-16h", sub: "", value: "fatigue" },
+      { icon: "🌙", label: "Le soir après le dîner — digestion difficile et douleurs", sub: "", value: "digestif" },
+      { icon: "🔄", label: "C'est variable, sans schéma précis", sub: "", value: "mixte" }
+    ]
+  },
+  {
+    title: "Qu'est-ce que tu espères améliorer en premier ?",
+    sub: "Ta priorité numéro 1.",
+    options: [
+      { icon: "⚡", label: "Retrouver de l'énergie durable tout au long de la journée", sub: "", value: "fatigue" },
+      { icon: "🌿", label: "Réduire mes douleurs et crises inflammatoires", sub: "", value: "douleur" },
+      { icon: "🧘", label: "Apaiser ma digestion et mon ventre", sub: "", value: "digestif" },
+      { icon: "🧠", label: "Retrouver de la clarté mentale et de la concentration", sub: "", value: "neuro" }
+    ]
+  }
+];
+
+const profiles = {
+  fatigue: {
+    icon: "⚡",
+    name: "Profil Énergie Épuisée",
+    label: "INFLAMMATION SYSTÉMIQUE",
+    intro: "Ta fatigue n'est pas dans ta tête. Et ce n'est pas de la paresse. Ce que tu vis s'appelle une fatigue mitochondriale — tes cellules n'arrivent plus à produire suffisamment d'énergie parce que l'inflammation chronique épuise tes réserves plus vite que ton corps ne peut les reconstituer. Tu te réveilles déjà à zéro.",
+    scores: [
+      { label: "Fatigue mitochondriale", pct: 88, color: "#C4714A" },
+      { label: "Inflammation hormonale", pct: 72, color: "#E09070" },
+      { label: "Troubles du sommeil", pct: 65, color: "#6B9070" },
+      { label: "Digestion", pct: 40, color: "#9BBF9F" }
+    ],
+    advices: [
+      {
+        icon: "🐟",
+        title: "Les oméga-3 chaque jour — pas juste de temps en temps",
+        subtitle: "Priorité absolue pour ton profil",
+        body: "La plupart des femmes avec une inflammation chronique ont un ratio oméga-6/oméga-3 complètement déséquilibré. Concrètement : ton corps produit trop de <strong>prostaglandines E2</strong>, des molécules pro-inflammatoires qui alimentent ta fatigue en boucle. Objectif : saumon, maquereau ou sardines <em>minimum 3x par semaine</em>. Pas en complément — dans l'assiette, directement."
+      },
+      {
+        icon: "🌰",
+        title: "Le magnésium — ton allié numéro 1 contre la fatigue",
+        subtitle: "Carence très fréquente dans les maladies chroniques",
+        body: "Le magnésium est co-facteur de <strong>plus de 300 réactions enzymatiques</strong>, dont la production d'énergie cellulaire (ATP). Une carence amplifie la fatigue, les crampes musculaires et les troubles du sommeil. Sources prioritaires : <em>graines de courge le soir</em> dans une soupe, amandes au goûter, chocolat 85% après le dîner. Pas de supplémentation sans avis médical — commence par l'alimentation."
+      },
+      {
+        icon: "🍳",
+        title: "Ton petit-déjeuner change tout dès le lendemain matin",
+        subtitle: "Le changement le plus rapide à mettre en place",
+        body: "Un petit-déjeuner sucré (jus, céréales industrielles, confiture) crée un <strong>pic de glycémie</strong> suivi d'une chute brutale vers 10h — c'est ce crash qui t'épuise dès la matinée et entretient l'inflammation. Remplace-le par : <em>2 œufs + avocat + pain de sarrasin</em> ou un <em>bol d'avoine + graines de chia + fruits rouges + cannelle</em>. Résultat ressenti dès la première semaine : énergie stable jusqu'au déjeuner, sans coup de fatigue."
+      }
+    ],
+    timeline: [
+      { week: "Sem. 1-2", text: "Moins de crash énergétique l'après-midi, digestion plus légère" },
+      { week: "Sem. 3-4", text: "Réveil moins difficile, sommeil plus récupérateur" },
+      { week: "Sem. 5-6", text: "Énergie plus stable sur la journée entière, moins de brouillard mental" }
+    ],
+    ctaTitle: "Tu n'as pas à continuer à vivre comme ça.",
+    ctaDesc: "Ce que tu viens de lire, c'est le point de départ. Mais changer son alimentation quand on est épuisée, sans savoir par où commencer, sans avoir l'énergie de cuisiner — c'est là que la plupart des femmes abandonnent. C'est exactement pour ça que je t'accompagne pas à pas, avec des repas pensés pour tes journées les plus difficiles, pour que tu puisses enfin ressentir la différence dans ton corps."
+  },
+
+  douleur: {
+    icon: "🌿",
+    name: "Profil Douleur Inflammatoire",
+    label: "INFLAMMATION ARTICULAIRE",
+    intro: "Tes douleurs ne sont pas une fatalité. Elles sont le signal d'une réponse inflammatoire active dans ton corps — et l'alimentation peut directement agir sur les molécules qui les alimentent. Ce n'est pas une promesse magique, c'est de la biochimie.",
+    scores: [
+      { label: "Douleurs articulaires & musculaires", pct: 85, color: "#C4714A" },
+      { label: "Inflammation chronique active", pct: 78, color: "#E09070" },
+      { label: "Fatigue liée à la douleur", pct: 62, color: "#6B9070" },
+      { label: "Troubles digestifs", pct: 38, color: "#9BBF9F" }
+    ],
+    advices: [
+      {
+        icon: "🌿",
+        title: "Curcuma + poivre noir — chaque jour, pas une fois par semaine",
+        subtitle: "L'anti-inflammatoire naturel le mieux documenté",
+        body: "La curcumine inhibe les voies <strong>NF-kB</strong>, les principales voies de signalisation de l'inflammation chronique. Seul problème : elle est très mal absorbée seule. Associée au <em>poivre noir (pipérine)</em>, son absorption augmente de <em>2000%</em>. Concrètement : 1 cuillère à café de curcuma + une pincée de poivre noir dans tes plats chauds, tous les jours. Pas en gélules — dans l'assiette avec une matière grasse."
+      },
+      {
+        icon: "🫚",
+        title: "L'huile d'olive extra vierge — pas juste pour le goût",
+        subtitle: "Un anti-inflammatoire naturel dans chaque goutte",
+        body: "L'huile d'olive extra vierge contient de <strong>l'oléocanthal</strong>, une molécule qui agit sur les mêmes voies inflammatoires que l'ibuprofène — sans les effets secondaires digestifs. Pour que ça fonctionne : <em>huile d'olive extra vierge de première pression à froid</em>, en assaisonnement ou à feu doux uniquement. 2 à 3 cuillères à soupe par jour sur tes plats, salades, légumes."
+      },
+      {
+        icon: "🍒",
+        title: "Les fruits rouges et cerises — tes alliés anti-douleur naturels",
+        subtitle: "Des antioxydants qui neutralisent l'inflammation",
+        body: "Les <strong>anthocyanes</strong> des fruits rouges (cerises, myrtilles, framboises) inhibent la production de prostaglandines et leucotriènes — les molécules directement responsables de la douleur et de l'inflammation articulaire. <em>Une poignée de fruits rouges</em> chaque matin au petit-déjeuner. Frais en saison, surgelés le reste de l'année — les nutriments sont préservés."
+      }
+    ],
+    timeline: [
+      { week: "Sem. 1-2", text: "Réduction des pics de douleur après les repas inflammatoires" },
+      { week: "Sem. 3-4", text: "Raideur matinale moins intense, récupération plus rapide" },
+      { week: "Sem. 5-6", text: "Crises moins fréquentes, douleurs de fond plus supportables" }
+    ],
+    ctaTitle: "Tes douleurs méritent une vraie réponse.",
+    ctaDesc: "Tu viens de comprendre comment certains aliments alimentent ton inflammation — et d'autres peuvent la calmer. Mais mettre tout ça en pratique seule, avec des journées déjà épuisantes, c'est un autre défi. Je t'accompagne avec un plan concret, des recettes adaptées à tes journées difficiles, pour que changer ton alimentation ne soit pas une charge de plus."
+  },
+
+  digestif: {
+    icon: "🫃",
+    name: "Profil Intestin Sensible",
+    label: "INFLAMMATION INTESTINALE",
+    intro: "Ton intestin n'est pas juste 'capricieux'. Il est le siège de 70% de ton système immunitaire — quand il est enflammé ou déséquilibré, tout ton corps le ressent. Ballonnements, crampes, transit perturbé : ce sont des signaux que ton microbiome a besoin d'être soutenu, pas ignoré.",
+    scores: [
+      { label: "Perméabilité intestinale", pct: 85, color: "#C4714A" },
+      { label: "Dysbiose du microbiome", pct: 78, color: "#E09070" },
+      { label: "Troubles digestifs actifs", pct: 90, color: "#6B9070" },
+      { label: "Inflammation systémique", pct: 55, color: "#9BBF9F" }
+    ],
+    advices: [
+      {
+        icon: "🫘",
+        title: "Les fibres prébiotiques — nourrir les bonnes bactéries",
+        subtitle: "La base de la reconstruction intestinale",
+        body: "Ton microbiome a besoin de <strong>fibres prébiotiques</strong> pour nourrir les bactéries protectrices qui calment l'inflammation intestinale. Sources prioritaires : <em>poireau cuit, ail, oignon, topinambour, banane légèrement verte</em>. Attention : si tu souffres de SIBO, commence doucement — ces fibres peuvent aggraver temporairement les ballonnements avant de les réduire. Commence par de petites quantités."
+      },
+      {
+        icon: "🍵",
+        title: "Le bouillon d'os ou le collagène — réparer la muqueuse",
+        subtitle: "L'outil de réparation intestinale le plus sous-estimé",
+        body: "La <strong>glutamine</strong> contenue dans le bouillon d'os est le carburant principal des cellules de ta muqueuse intestinale. Elle répare les jonctions serrées de l'intestin — clé dans le syndrome de l'intestin perméable. <em>Une tasse de bouillon maison le matin à jeun</em>, ou en début de repas. Si tu es végétarienne, la glutamine se trouve aussi dans le chou, les épinards crus et le miso non pasteurisé."
+      },
+      {
+        icon: "🥣",
+        title: "Les aliments fermentés — réensemencer ton microbiome",
+        subtitle: "Probiotiques naturels, bien plus efficaces que les gélules",
+        body: "Les aliments fermentés apportent des <strong>bactéries lactiques vivantes</strong> qui recolonisent ton intestin et réduisent l'inflammation de la muqueuse. Priorité : <em>kéfir de lait ou de coco, choucroute crue (pas cuite), kimchi, miso non pasteurisé</em>. Important : ils doivent être crus et non pasteurisés — la pasteurisation détruit les bactéries bénéfiques. Commence par une cuillère à soupe par jour et augmente progressivement."
+      }
+    ],
+    timeline: [
+      { week: "Sem. 1-2", text: "Ballonnements réduits, digestion plus fluide après les repas" },
+      { week: "Sem. 3-4", text: "Transit régularisé, crampes moins fréquentes" },
+      { week: "Sem. 5-6", text: "Ventre plus calme au quotidien, moins de réactions aux aliments" }
+    ],
+    ctaTitle: "Ton ventre peut retrouver la paix.",
+    ctaDesc: "Réparer son intestin prend du temps — mais chaque repas est une opportunité de lui donner ce dont il a besoin. Seule, entre les informations contradictoires sur internet et les journées sans énergie, c'est difficile de savoir par où commencer. Je t'accompagne avec un plan progressif, adapté à ta sensibilité intestinale, sans te demander de tout changer d'un coup."
+  },
+
+  neuro: {
+    icon: "🧠",
+    name: "Profil Neuro-Inflammatoire",
+    label: "NEUROINFLAMMATION",
+    intro: "Le brouillard mental que tu vis n'est pas de la fatigue ordinaire. C'est la conséquence directe d'une inflammation qui touche ton système nerveux — ce que les chercheurs appellent la neuroinflammation. Ton cerveau, comme tous tes autres organes, réagit à ce que tu manges.",
+    scores: [
+      { label: "Brouillard mental & concentration", pct: 88, color: "#C4714A" },
+      { label: "Neuroinflammation", pct: 75, color: "#E09070" },
+      { label: "Fatigue cognitive", pct: 82, color: "#6B9070" },
+      { label: "Sensibilité à la douleur", pct: 60, color: "#9BBF9F" }
+    ],
+    advices: [
+      {
+        icon: "🐟",
+        title: "Le DHA — le carburant de ton cerveau",
+        subtitle: "L'oméga-3 le plus important pour ton profil",
+        body: "Le <strong>DHA</strong> (acide docosahexaénoïque) représente 30% des graisses de la matière grise de ton cerveau. Sans apport suffisant, l'inflammation cérébrale s'amplifie et la transmission neuronale se dégrade — d'où le brouillard mental, la lenteur cognitive, l'irritabilité. Sources : <em>saumon sauvage, maquereau, sardines entières avec l'arête</em> (la plus riche en DHA) — 3 à 4 fois par semaine minimum. Les œufs de poules élevées en plein air en contiennent aussi."
+      },
+      {
+        icon: "🫐",
+        title: "Les myrtilles — les seuls fruits qui nourrissent ton cerveau directement",
+        subtitle: "Les anthocyanes traversent la barrière hémato-encéphalique",
+        body: "Les <strong>anthocyanes</strong> des myrtilles sont parmi les rares molécules alimentaires capables de traverser la <em>barrière hémato-encéphalique</em> pour agir directement sur le cerveau. Elles réduisent l'inflammation neuronale, améliorent la mémoire et la concentration. <em>Une poignée de myrtilles fraîches ou surgelées chaque matin</em> — dans ton bol d'avoine, un smoothie, ou seules. L'effet est cumulatif : les bénéfices augmentent avec la régularité."
+      },
+      {
+        icon: "🥑",
+        title: "Les graisses saines — construire et protéger ton cerveau",
+        subtitle: "60% de ton cerveau est composé de graisses",
+        body: "Ton cerveau est l'organe le plus riche en graisses de ton corps. Les <strong>graisses mono et polyinsaturées</strong> sont ses matériaux de construction et de protection. Sources quotidiennes : <em>avocat (½ par jour), noix de Grenoble (une poignée), huile d'olive extra vierge, graines de lin moulues</em>. À l'inverse : les graisses trans et huiles raffinées augmentent l'inflammation cérébrale — à éliminer en priorité."
+      }
+    ],
+    timeline: [
+      { week: "Sem. 1-2", text: "Concentration légèrement améliorée, moins d'irritabilité après les repas" },
+      { week: "Sem. 3-4", text: "Brouillard mental moins dense, meilleure clarté le matin" },
+      { week: "Sem. 5-6", text: "Énergie cognitive plus stable, mémoire plus disponible" }
+    ],
+    ctaTitle: "Ton cerveau mérite d'être nourri, pas juste géré.",
+    ctaDesc: "Tu viens de comprendre pourquoi ton brouillard mental n'est pas une fatalité. Mais passer de la connaissance à l'assiette — surtout quand on manque d'énergie cognitive — c'est un vrai défi. Je t'accompagne avec un plan pensé pour toi, avec des repas simples qui nourrissent ton cerveau sans te demander de réfléchir pendant des heures."
+  },
+
+  mixte: {
+    icon: "🌸",
+    name: "Profil Inflammation Mixte",
+    label: "INFLAMMATION MULTI-SYSTÉMIQUE",
+    intro: "Ton inflammation ne se limite pas à un seul système — elle touche plusieurs zones à la fois. C'est courant dans les maladies auto-immunes et les pathologies chroniques complexes. Bonne nouvelle : les bases de l'alimentation anti-inflammatoire agissent sur tous ces fronts simultanément.",
+    scores: [
+      { label: "Inflammation systémique", pct: 75, color: "#C4714A" },
+      { label: "Fatigue chronique", pct: 70, color: "#E09070" },
+      { label: "Troubles digestifs", pct: 62, color: "#6B9070" },
+      { label: "Douleurs diffuses", pct: 65, color: "#9BBF9F" }
+    ],
+    advices: [
+      {
+        icon: "🌿",
+        title: "Commencer par éliminer les grands pro-inflammatoires",
+        subtitle: "Le changement qui a le plus d'impact en moins de temps",
+        body: "Avant d'ajouter des super-aliments, il faut d'abord <strong>retirer ce qui alimente l'inflammation</strong>. Les grands coupables à éliminer en priorité : <em>sucre raffiné, huiles végétales industrielles (tournesol, maïs), aliments ultra-transformés, alcool</em>. Tu n'as pas besoin de tout supprimer en même temps — commence par UN de ces éléments la première semaine. Les résultats sur plusieurs systèmes simultanément sont souvent visibles dès les 2 premières semaines."
+      },
+      {
+        icon: "🐟",
+        title: "Rééquilibrer ton ratio oméga-3 / oméga-6",
+        subtitle: "La base universelle de tout protocole anti-inflammatoire",
+        body: "Le ratio idéal oméga-6/oméga-3 est de <strong>4:1</strong>. L'alimentation occidentale moderne nous pousse souvent à des ratios de 20:1 voire 40:1 — ce déséquilibre est directement pro-inflammatoire. Action concrète : <em>augmente les oméga-3</em> (poissons gras 3x/semaine, graines de lin moulues, noix de Grenoble) et <em>réduis les oméga-6</em> (huile de tournesol → huile d'olive). Ce seul changement agit sur la fatigue, les douleurs ET la digestion."
+      },
+      {
+        icon: "🫘",
+        title: "Prendre soin de ton intestin en priorité",
+        subtitle: "L'intestin est souvent impliqué dans les inflammations multi-systémiques",
+        body: "Avec une inflammation touchant plusieurs systèmes, l'intestin est presque toujours impliqué — même si tu n'as pas de symptômes digestifs majeurs. <strong>70% du système immunitaire</strong> réside dans l'intestin. Soutenir ton microbiome, c'est agir sur tous les fronts à la fois. Priorité : <em>fibres prébiotiques chaque jour</em> (poireau, ail, oignon), <em>bouillon d'os</em> pour la muqueuse, <em>fermentés crus</em> pour les probiotiques naturels."
+      }
+    ],
+    timeline: [
+      { week: "Sem. 1-2", text: "Premiers signes de mieux-être digestif, moins de fatigue post-repas" },
+      { week: "Sem. 3-4", text: "Énergie légèrement plus stable, douleurs diffuses en diminution" },
+      { week: "Sem. 5-6", text: "Amélioration globale progressive sur plusieurs symptômes à la fois" }
+    ],
+    ctaTitle: "Une approche globale, parce que tu es un tout.",
+    ctaDesc: "Quand l'inflammation touche plusieurs systèmes, les solutions partielles ne suffisent pas. Il faut une approche cohérente, progressive, qui respecte ta réalité et ton niveau d'énergie. C'est exactement ce que je propose — t'accompagner pas à pas, avec une méthode adaptée à ta complexité, pour que tu puisses enfin ressentir une vraie amélioration dans ton quotidien."
+  }
+};
+
+let answers = [];
+let currentQ = 0;
+let selectedOption = null;
+let userName = '';
+
+// Détection soumission Jotform via postMessage
+window.addEventListener('message', function(event) {
+  if (event.data === 'JotFormIFrameReady') return;
+  if (typeof event.data === 'string' && event.data.includes('jotform')) return;
+  // Jotform envoie un objet avec action "submission-completed"
+  if (event.data && event.data.action === 'submission-completed') {
+    jotformSubmitted();
+    return;
+  }
+  // Fallback : certaines versions envoient une string JSON
+  try {
+    const parsed = JSON.parse(event.data);
+    if (parsed && (parsed.action === 'submission-completed' || parsed.submitted)) {
+      jotformSubmitted();
+    }
+  } catch(e) {}
+});
+
+// Fallback supplémentaire : détecter le message de succès Jotform (texte dans l'iframe)
+window.addEventListener('message', function(e) {
+  if (e.data && typeof e.data === 'string' && e.data.indexOf('Thank') !== -1) {
+    jotformSubmitted();
+  }
+});
+
+function jotformSubmitted() {
+  const btn = document.getElementById('btn-voir-resultat');
+  const msg = document.getElementById('waiting-msg');
+  if (btn) {
+    btn.style.display = 'block';
+    btn.style.animation = 'fadeUp 0.5s ease both';
+  }
+  if (msg) {
+    msg.innerHTML = '✅ Formulaire reçu ! Clique ci-dessous pour voir ton résultat.';
+    msg.style.color = 'var(--sage)';
+    msg.style.fontWeight = '600';
+  }
+}
+
+function startQuiz() {
+  showScreen('screen-questions');
+  renderQuestion();
+  updateProgress();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('q-num').textContent = String(currentQ + 1).padStart(2,'0');
+  document.getElementById('q-of').textContent = '/ ' + String(questions.length).padStart(2,'0');
+  document.getElementById('q-title').textContent = q.title;
+  document.getElementById('q-sub').textContent = q.sub;
+  document.getElementById('step-counter').textContent = `Question ${currentQ + 1} sur ${questions.length}`;
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  selectedOption = null;
+  document.getElementById('btn-next').classList.remove('visible');
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `
+      <div class="opt-icon">${opt.icon}</div>
+      <div>
+        <div class="opt-label">${opt.label}</div>
+        ${opt.sub ? `<div class="opt-sub">${opt.sub}</div>` : ''}
+      </div>
+    `;
+    btn.onclick = () => selectOption(i, opt.value, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function selectOption(idx, value, btn) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedOption = value;
+  document.getElementById('btn-next').classList.add('visible');
+}
+
+function nextQuestion() {
+  if (!selectedOption) return;
+  answers.push(selectedOption);
+  currentQ++;
+  updateProgress();
+  if (currentQ >= questions.length) {
+    showScreen('screen-email');
+    document.getElementById('step-counter').textContent = 'Dernière étape !';
+  } else {
+    renderQuestion();
+    showScreen('screen-questions');
+  }
+}
+
+function updateProgress() {
+  const pct = (currentQ / questions.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function showResult() {
+  const count = {};
+  answers.forEach(a => count[a] = (count[a]||0) + 1);
+  const dominant = Object.entries(count).sort((a,b)=>b[1]-a[1])[0][0];
+  const profile = profiles[dominant] || profiles.mixte;
+
+  const resultEl = document.getElementById('screen-result');
+  resultEl.innerHTML = `
+    <div class="result-card">
+      <div class="result-badge">✨ ${profile.label}</div>
+      <div class="result-profile-icon">${profile.icon}</div>
+      <h2>${profile.name}</h2>
+      <p class="result-intro">${profile.intro}</p>
+      <div class="score-bars">
+        ${profile.scores.map(s => `
+          <div>
+            <div class="score-label"><span>${s.label}</span><span>${s.pct}%</span></div>
+            <div class="score-track"><div class="score-fill" style="background:${s.color}" data-pct="${s.pct}"></div></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="advice-section">
+      <div class="advice-title">Tes recommandations personnalisées 🌿</div>
+      <div class="advice-subtitle">Concrètes, actionnables, adaptées à ton profil — pas des conseils génériques.</div>
+      ${profile.advices.map(a => `
+        <div class="advice-card">
+          <div class="advice-card-header">
+            <div class="advice-icon">${a.icon}</div>
+            <div>
+              <div class="advice-card-title">${a.title}</div>
+              <div class="advice-card-subtitle">${a.subtitle}</div>
+            </div>
+          </div>
+          <div class="advice-card-body">${a.body}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-title">📅 Ce que tu peux attendre concrètement</div>
+      <div class="timeline-items">
+        ${profile.timeline.map(t => `
+          <div class="timeline-item">
+            <div class="timeline-week">${t.week}</div>
+            <div class="timeline-text">${t.text}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="result-cta">
+      <div class="result-cta-eyebrow">🌿 Vivre Sans Flammes</div>
+      <h3>${profile.ctaTitle.includes('pas') ? profile.ctaTitle : '<em>' + profile.ctaTitle + '</em>'}</h3>
+      <p>${profile.ctaDesc}</p>
+      <button class="btn-cta" onclick="window.location.href='#'">Découvrir comment je peux t'aider →</button>
+      <div class="result-access">💚 Accès à vie au programme</div>
+    </div>
+  `;
+
+  document.getElementById('step-counter').textContent = 'Ton résultat 🌿';
+  document.getElementById('progress-bar').style.width = '100%';
+  showScreen('screen-result');
+
+  setTimeout(() => {
+    document.querySelectorAll('.score-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  }, 400);
+}
+</script>
+</body>
+</html>
